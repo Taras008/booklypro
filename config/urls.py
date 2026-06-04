@@ -16,7 +16,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib import admin
+from django.db import connection
+from django.http import JsonResponse
+from django.urls import path
 
+
+def health_check(request):
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1;")
+            cursor.fetchone()
+
+        return JsonResponse({
+            "status": "ok",
+            "database": "connected",
+        })
+
+    except Exception:
+        return JsonResponse({
+            "status": "error",
+            "database": "unavailable",
+        }, status=503)
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health/',health_check)
 ]
