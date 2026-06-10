@@ -6,14 +6,14 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-
+from decouple import config
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
 
-
+AUTH_USER_MODEL = "accounts.User"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
@@ -33,9 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.accounts',
-    'apps.businesses',
-    'apps.bookings',
+    "apps.accounts.apps.AccountsConfig",
+    "apps.businesses.apps.BusinessesConfig",
+    "apps.bookings.apps.BookingsConfig",
 ]
 
 MIDDLEWARE = [
